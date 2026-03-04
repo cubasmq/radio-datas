@@ -169,3 +169,16 @@ Pour accélérer la production éditoriale et commerciale, j’ai ajouté un gui
 - Fournisseurs couverts : **Claude, Ollama, LM Studio, DeepSeek, OpenAI, Gemini**.
 - Recommandation : exposer une API interne unique `POST /ai/generate` avec routage par provider.
 
+
+---
+
+
+## 10) Comment tester l'appli ?
+
+Un guide dédié est disponible ici : **`docs/testing.md`**.
+
+Tu y trouveras :
+- la stratégie de test (unitaires, intégration, E2E),
+- une checklist MVP (planning, CRM/facturation, diffusion),
+- la validation des appels IA (Claude, Ollama, LM Studio, DeepSeek, OpenAI, Gemini),
+- les critères de go-live.
