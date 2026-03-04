@@ -209,7 +209,8 @@ python3 -m http.server 8080 --directory app
 Puis ouvre : `http://localhost:8080`
 
 ### Ce que tu peux tester immédiatement
-- Interface dashboard sombre type régie (sidebar + alertes + KPIs),
-- Ajout de créneaux FM/PUB avec détection de conflit date/heure,
-- Ajout d'annonceurs (mini CRM),
-- Simulation de réponse IA multi-provider.
+- 🏦 Trésorerie : entrées/sorties, solde auto, historique, 3 actions IA,
+- 📋 Créances : statuts (en cours/retard/critique/payé), taux recouvrement, stratégie IA,
+- 📻 Grille antenne : spots par créneau, CA, taux de remplissage, optimisation IA,
+- 👥 Annonceurs : CRM simple + budget mensuel + analyse portefeuille IA,
+- 🧠 Mémoire & Comparatifs : snapshots, comparaison jusqu'à 4 périodes, benchmark IA (5 actions sur 90 jours).

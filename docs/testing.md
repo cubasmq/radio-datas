@@ -101,3 +101,12 @@ Ensuite :
 - tenter de recréer le même créneau et vérifier l'alerte de conflit,
 - créer 1 annonceur,
 - tester la simulation IA et vérifier l'affichage de la réponse.
+
+
+## 8) Validation Mémoire & Comparatifs
+
+- créer des données sur Trésorerie, Créances, Grille et Annonceurs,
+- cliquer `📸 Sauver situation actuelle` (mois 1),
+- modifier les données puis refaire un snapshot (mois 2 / mois 3),
+- lancer `📊 Comparer 2 périodes`,
+- lancer `🤖 Benchmark IA (5 actions)` et vérifier la génération des actions prioritaires.
