@@ -211,6 +211,7 @@ python3 -m http.server 8080 --directory app
 Puis ouvre : `http://localhost:8080`
 
 ### Ce que tu peux tester immédiatement
-- Ajout de créneaux FM/PUB,
+- Interface dashboard sombre type régie (sidebar + alertes + KPIs),
+- Ajout de créneaux FM/PUB avec détection de conflit date/heure,
 - Ajout d'annonceurs (mini CRM),
 - Simulation de réponse IA multi-provider.

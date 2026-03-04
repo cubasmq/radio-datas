@@ -16,9 +16,7 @@ function save() {
 
 function render() {
   slotsList.innerHTML = state.slots
-    .map(
-      (s) => `<li><strong>[${s.type}]</strong> ${s.date} ${s.time} — ${s.title}</li>`
-    )
+    .map((s) => `<li><strong>[${s.type}]</strong> ${s.date} ${s.time} — ${s.title}</li>`)
     .join('');
 
   advertisersList.innerHTML = state.advertisers
@@ -26,25 +24,34 @@ function render() {
     .join('');
 }
 
-slotForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  state.slots.push({
-    title: document.getElementById('slot-title').value,
-    date: document.getElementById('slot-date').value,
-    time: document.getElementById('slot-time').value,
-    type: document.getElementById('slot-type').value
-  });
+function hasConflict(date, time) {
+  return state.slots.some((slot) => slot.date === date && slot.time === time);
+}
+
+slotForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const title = document.getElementById('slot-title').value;
+  const date = document.getElementById('slot-date').value;
+  const time = document.getElementById('slot-time').value;
+  const type = document.getElementById('slot-type').value;
+
+  if (hasConflict(date, time)) {
+    window.alert('Conflit détecté : un créneau existe déjà à cette date/heure.');
+    return;
+  }
+
+  state.slots.push({ title, date, time, type });
   save();
   render();
   slotForm.reset();
 });
 
-crmForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  state.advertisers.push({
-    name: document.getElementById('crm-name').value,
-    contact: document.getElementById('crm-contact').value
-  });
+crmForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const name = document.getElementById('crm-name').value;
+  const contact = document.getElementById('crm-contact').value;
+
+  state.advertisers.push({ name, contact });
   save();
   render();
   crmForm.reset();
@@ -53,7 +60,9 @@ crmForm.addEventListener('submit', (e) => {
 document.getElementById('simulate').addEventListener('click', () => {
   const provider = document.getElementById('provider').value;
   const prompt = document.getElementById('prompt').value || 'Aucun prompt saisi';
-  aiOutput.textContent = `[${provider}] Réponse simulée:\n${prompt}\n\nSuggestion: publier ce contenu après validation humaine.`;
+  const now = new Date().toLocaleTimeString('fr-FR');
+
+  aiOutput.textContent = `[${provider}] Réponse simulée (${now})\n\n${prompt}\n\nSuggestion: valider en régie avant diffusion.`;
 });
 
 render();

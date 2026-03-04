@@ -93,5 +93,6 @@ python3 -m http.server 8080 --directory app
 Ensuite :
 - ouvrir `http://localhost:8080`,
 - créer 1 créneau FM + 1 spot PUB,
+- tenter de recréer le même créneau et vérifier l'alerte de conflit,
 - créer 1 annonceur,
 - tester la simulation IA et vérifier l'affichage de la réponse.
