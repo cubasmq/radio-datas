@@ -81,3 +81,17 @@ npm run typecheck
 ```
 
 Si tu veux, je peux ensuite te générer un **squelette technique initial** (Next.js + NestJS + PostgreSQL + Docker Compose) avec ces tests déjà câblés.
+
+## 7) Test rapide navigateur (prototype actuel)
+
+Le repository contient maintenant un prototype statique dans `app/`.
+
+```bash
+python3 -m http.server 8080 --directory app
+```
+
+Ensuite :
+- ouvrir `http://localhost:8080`,
+- créer 1 créneau FM + 1 spot PUB,
+- créer 1 annonceur,
+- tester la simulation IA et vérifier l'affichage de la réponse.

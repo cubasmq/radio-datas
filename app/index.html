@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radio Datas - Démo locale</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>📻 Radio Datas - Démo locale navigateur</h1>
+      <p>Prototype léger pour tester le concept Radio FM + Régie pub sur ton navigateur.</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>1) Planning FM + Spots pub</h2>
+        <form id="slot-form">
+          <input id="slot-title" placeholder="Nom émission / spot" required />
+          <input id="slot-date" type="date" required />
+          <input id="slot-time" type="time" required />
+          <select id="slot-type">
+            <option value="FM">FM</option>
+            <option value="PUB">PUB</option>
+          </select>
+          <button type="submit">Ajouter créneau</button>
+        </form>
+        <ul id="slots"></ul>
+      </section>
+
+      <section class="card">
+        <h2>2) CRM annonceurs (mini)</h2>
+        <form id="crm-form">
+          <input id="crm-name" placeholder="Nom annonceur" required />
+          <input id="crm-contact" placeholder="Contact" required />
+          <button type="submit">Ajouter annonceur</button>
+        </form>
+        <ul id="advertisers"></ul>
+      </section>
+
+      <section class="card">
+        <h2>3) Test API IA (simulation)</h2>
+        <label for="provider">Provider</label>
+        <select id="provider">
+          <option>OpenAI</option>
+          <option>Claude</option>
+          <option>Gemini</option>
+          <option>DeepSeek</option>
+          <option>Ollama</option>
+          <option>LM Studio</option>
+        </select>
+        <textarea id="prompt" rows="4" placeholder="Ex: Rédige un script radio de 20 secondes..."></textarea>
+        <button id="simulate" type="button">Simuler réponse</button>
+        <pre id="ai-output"></pre>
+      </section>
+    </main>
+
+    <footer>
+      <small>Données stockées localement dans ton navigateur (localStorage).</small>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

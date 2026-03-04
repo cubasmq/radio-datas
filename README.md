@@ -182,3 +182,35 @@ Tu y trouveras :
 - une checklist MVP (planning, CRM/facturation, diffusion),
 - la validation des appels IA (Claude, Ollama, LM Studio, DeepSeek, OpenAI, Gemini),
 - les critères de go-live.
+
+---
+
+
+## 11) Télécharger l'app et tester sur ton navigateur
+
+### Option A — Télécharger en ZIP
+1. Télécharge le dépôt GitHub en ZIP.
+2. Décompresse le dossier.
+3. Ouvre un terminal dans le dossier du projet.
+4. Lance un serveur web local :
+
+```bash
+python3 -m http.server 8080 --directory app
+```
+
+5. Ouvre ton navigateur sur : `http://localhost:8080`
+
+### Option B — Via Git
+
+```bash
+git clone <url-du-repo>
+cd radio-datas
+python3 -m http.server 8080 --directory app
+```
+
+Puis ouvre : `http://localhost:8080`
+
+### Ce que tu peux tester immédiatement
+- Ajout de créneaux FM/PUB,
+- Ajout d'annonceurs (mini CRM),
+- Simulation de réponse IA multi-provider.
