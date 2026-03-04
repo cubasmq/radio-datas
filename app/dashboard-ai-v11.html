@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dashboard-ai-v11</title>
+  <style>
+    :root { --bg:#030711; --card:#0b1628; --line:#1b2a42; --text:#cfe0ff; --muted:#7e95b7; --ok:#1ee6a7; --warn:#ffb020; --danger:#ff4b5c; }
+    *{box-sizing:border-box} body{margin:0;font-family:"Segoe UI",Inter,sans-serif;background:radial-gradient(circle at top,#0c1b36,var(--bg));color:var(--text)}
+    .layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+    .sidebar{border-right:1px solid var(--line);background:rgba(2,10,20,.92);padding:1rem}
+    .brand{font-size:1.5rem;font-weight:700;margin-bottom:1rem}.brand span{color:var(--ok)}.brand small{font-size:.75rem;color:var(--muted)}
+    .section{color:var(--muted);text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;margin-top:1rem}
+    .nav-item{width:100%;text-align:left;margin:.2rem 0;padding:.65rem .75rem;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--text)}
+    .nav-item.active,.nav-item:hover{border-color:#1ee6a77c;background:#0c2035}
+    .main{padding:1rem 1.2rem}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.7rem}
+    .topbar h1{margin:0;font-size:1rem;letter-spacing:.14em}.providers span{font-size:.72rem;border:1px solid #2b4166;border-radius:999px;padding:.28rem .5rem;margin-left:.3rem;color:#7ab5ff}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-top:.75rem}
+    .card{background:linear-gradient(180deg,#0b1628,#0a1322);border:1px solid var(--line);border-radius:14px;padding:.85rem}
+    .card h3{margin:.1rem 0 .5rem;font-size:1rem}.sub{color:var(--muted);font-size:.82rem;margin-bottom:.5rem}
+    .value{font-size:1.4rem;font-weight:800;color:var(--ok);margin:.2rem 0}.danger{color:var(--danger)} .warn{color:var(--warn)}
+    .compact-form{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.4rem;margin-bottom:.5rem}
+    .compact-form.six{grid-template-columns:repeat(6,minmax(0,1fr));}
+    input,select,textarea,button{background:#081223;color:var(--text);border:1px solid #223450;border-radius:9px;padding:.5rem}
+    button{cursor:pointer;background:#1a3361} button:hover{background:#234680}
+    ul{margin:.4rem 0 0;padding-left:1rem;max-height:170px;overflow:auto} li{margin:.2rem 0;color:#bad4fa}
+    .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+    .kpi{background:#071224;border:1px solid #23334f;border-radius:9px;padding:.5rem}
+    .kpi b{display:block;font-size:1.05rem;margin-top:.25rem}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th,td{border-bottom:1px solid #23334f;padding:.35rem;text-align:left}
+    .actions{margin:.4rem 0 0;padding-left:1rem}
+    .actions li{margin-bottom:.2rem}
+    .snapshot-row{display:grid;grid-template-columns:1fr auto auto;gap:.4rem;align-items:center}
+    .mini{font-size:.8rem;color:var(--muted)}
+    .download-tip{font-size:.82rem;color:var(--muted);margin-top:.4rem}
+    @media (max-width:1200px){.layout{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.grid,.kpi-row{grid-template-columns:1fr}.compact-form,.compact-form.six{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">📡 <span>RadioPilot</span> <small>AI</small></div>
+      <p class="section">Navigation</p>
+      <button class="nav-item active">📊 Tableau de bord</button>
+      <button class="nav-item">🏦 Trésorerie</button>
+      <button class="nav-item">📋 Créances</button>
+      <button class="nav-item">📻 Grille Antenne</button>
+      <button class="nav-item">👥 Annonceurs</button>
+      <button class="nav-item">🧠 Mémoire & Comparatifs</button>
+      <p class="download-tip">✅ Tout est sauvegardé automatiquement dans ton navigateur.</p>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1>RADIO FM + RÉGIE — PILOTAGE OPÉRATIONNEL</h1>
+        <div class="providers"><span>CLAUDE</span><span>GEMINI</span><span>GPT-4</span><span>DEEPSEEK</span><span>OLLAMA</span><span>LM STUDIO</span></div>
+      </header>
+
+      <section class="card" style="margin-top:.75rem">
+        <h3>Indicateurs consolidés</h3>
+        <div class="kpi-row">
+          <div class="kpi">Solde trésorerie<b id="cash-balance">0 €</b></div>
+          <div class="kpi">Taux recouvrement<b id="recovery-rate">0%</b></div>
+          <div class="kpi">CA spots planifiés<b id="air-ca">0 €</b></div>
+          <div class="kpi">Remplissage grille<b id="fill-rate">0%</b></div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h3>🏦 Trésorerie</h3>
+          <div class="sub">Saisie des mouvements, solde auto, historique + 3 actions IA.</div>
+          <form id="cash-form" class="compact-form">
+            <input id="cash-label" placeholder="Libellé" required>
+            <input id="cash-date" type="date" required>
+            <select id="cash-type"><option value="in">Entrée</option><option value="out">Sortie</option></select>
+            <input id="cash-amount" type="number" min="0" step="0.01" placeholder="Montant" required>
+            <button type="submit">Ajouter</button>
+          </form>
+          <ul id="cash-list"></ul>
+          <div class="value" id="cash-summary">Solde: 0 €</div>
+          <ol class="actions" id="cash-ai"></ol>
+        </article>
+
+        <article class="card">
+          <h3>📋 Créances</h3>
+          <div class="sub">Statuts (en cours/retard/critique/payé), taux recouvrement + stratégie IA.</div>
+          <form id="claim-form" class="compact-form six">
+            <input id="claim-client" placeholder="Client" required>
+            <input id="claim-amount" type="number" min="0" step="0.01" placeholder="Montant" required>
+            <select id="claim-status"><option>en cours</option><option>retard</option><option>critique</option><option>payé</option></select>
+            <input id="claim-due" type="date" required>
+            <input id="claim-note" placeholder="Note relance">
+            <button type="submit">Ajouter</button>
+          </form>
+          <ul id="claims-list"></ul>
+          <div class="value" id="claim-summary">Recouvrement: 0%</div>
+          <ol class="actions" id="claims-ai"></ol>
+        </article>
+
+        <article class="card">
+          <h3>📻 Grille Antenne</h3>
+          <div class="sub">Planification spots, CA par créneau, taux de remplissage + optimisation IA.</div>
+          <form id="slot-form" class="compact-form six">
+            <input id="slot-title" placeholder="Spot / émission" required>
+            <input id="slot-date" type="date" required>
+            <input id="slot-time" type="time" required>
+            <input id="slot-duration" type="number" min="5" step="5" placeholder="Durée (min)" required>
+            <input id="slot-revenue" type="number" min="0" step="0.01" placeholder="CA (€)" required>
+            <button type="submit">Ajouter</button>
+          </form>
+          <ul id="slots"></ul>
+          <div class="value" id="slots-summary">CA: 0 € — Remplissage: 0%</div>
+          <ol class="actions" id="slots-ai"></ol>
+        </article>
+
+        <article class="card">
+          <h3>👥 Annonceurs</h3>
+          <div class="sub">CRM simple, budget mensuel et analyse portefeuille IA.</div>
+          <form id="crm-form" class="compact-form six">
+            <input id="crm-name" placeholder="Annonceur" required>
+            <input id="crm-contact" placeholder="Contact" required>
+            <input id="crm-budget" type="number" min="0" step="0.01" placeholder="Budget mensuel" required>
+            <select id="crm-status"><option>actif</option><option>à relancer</option><option>inactif</option></select>
+            <input id="crm-sector" placeholder="Secteur">
+            <button type="submit">Ajouter</button>
+          </form>
+          <ul id="advertisers"></ul>
+          <div class="value" id="crm-summary">Budget total: 0 €</div>
+          <ol class="actions" id="crm-ai"></ol>
+        </article>
+      </section>
+
+      <section class="card">
+        <h3>🧠 Mémoire & Comparatifs</h3>
+        <div class="sub">Nouvelle fonction clé : snapshots, comparaison (jusqu'à 4 périodes) et benchmark IA sur 90 jours.</div>
+        <div class="snapshot-row">
+          <input id="snapshot-label" placeholder="Ex: Fin Mars 2026">
+          <button id="save-snapshot" type="button">📸 Sauver situation actuelle</button>
+          <span class="mini" id="snapshot-count">0 snapshot</span>
+        </div>
+        <div style="margin-top:.5rem" class="snapshot-row">
+          <select id="compare-a"></select>
+          <select id="compare-b"></select>
+          <button id="run-compare" type="button">📊 Comparer 2 périodes</button>
+        </div>
+        <div style="margin-top:.5rem" class="snapshot-row">
+          <select id="compare-c"></select>
+          <select id="compare-d"></select>
+          <button id="run-benchmark" type="button">🤖 Benchmark IA (5 actions)</button>
+        </div>
+        <div style="margin-top:.6rem;overflow:auto">
+          <table>
+            <thead><tr><th>Indicateur</th><th>Période A</th><th>Période B</th><th>Période C</th><th>Période D</th></tr></thead>
+            <tbody id="compare-table"></tbody>
+          </table>
+        </div>
+        <ol class="actions" id="benchmark-ai"></ol>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const state = {
+      cash: JSON.parse(localStorage.getItem('rd-cash') || '[]'),
+      claims: JSON.parse(localStorage.getItem('rd-claims') || '[]'),
+      slots: JSON.parse(localStorage.getItem('rd-slots') || '[]'),
+      advertisers: JSON.parse(localStorage.getItem('rd-advertisers') || '[]'),
+      snapshots: JSON.parse(localStorage.getItem('rd-snapshots') || '[]')
+    };
+
+    const euro = (n) => `${Number(n || 0).toFixed(2)} €`;
+    const pct = (n) => `${Number(n || 0).toFixed(1)}%`;
+
+    function persist() {
+      localStorage.setItem('rd-cash', JSON.stringify(state.cash));
+      localStorage.setItem('rd-claims', JSON.stringify(state.claims));
+      localStorage.setItem('rd-slots', JSON.stringify(state.slots));
+      localStorage.setItem('rd-advertisers', JSON.stringify(state.advertisers));
+      localStorage.setItem('rd-snapshots', JSON.stringify(state.snapshots));
+    }
+
+    function metrics() {
+      const cashIn = state.cash.filter(x => x.type === 'in').reduce((a, b) => a + b.amount, 0);
+      const cashOut = state.cash.filter(x => x.type === 'out').reduce((a, b) => a + b.amount, 0);
+      const balance = cashIn - cashOut;
+
+      const totalClaims = state.claims.reduce((a, b) => a + b.amount, 0);
+      const paidClaims = state.claims.filter(c => c.status === 'payé').reduce((a, b) => a + b.amount, 0);
+      const recoveryRate = totalClaims ? (paidClaims / totalClaims) * 100 : 0;
+
+      const ca = state.slots.reduce((a, b) => a + b.revenue, 0);
+      const totalMinutes = state.slots.reduce((a, b) => a + b.duration, 0);
+      const fillRate = Math.min((totalMinutes / (7 * 24 * 60)) * 100, 100);
+
+      const budget = state.advertisers.reduce((a, b) => a + b.budget, 0);
+      const inactive = state.advertisers.filter(a => a.status !== 'actif').length;
+
+      return { balance, recoveryRate, ca, fillRate, budget, inactive, totalClaims };
+    }
+
+    function renderCore() {
+      const m = metrics();
+      document.getElementById('cash-balance').textContent = euro(m.balance);
+      document.getElementById('recovery-rate').textContent = pct(m.recoveryRate);
+      document.getElementById('air-ca').textContent = euro(m.ca);
+      document.getElementById('fill-rate').textContent = pct(m.fillRate);
+
+      document.getElementById('cash-list').innerHTML = state.cash.map(x => `<li>${x.date} — ${x.label} (${x.type === 'in' ? '+' : '-' }${euro(x.amount)})</li>`).join('');
+      document.getElementById('claims-list').innerHTML = state.claims.map(x => `<li>${x.client} — ${euro(x.amount)} — <span class="${x.status==='critique'?'danger':x.status==='retard'?'warn':''}">${x.status}</span></li>`).join('');
+      document.getElementById('slots').innerHTML = state.slots.map(x => `<li>${x.date} ${x.time} — ${x.title} (${x.duration} min, ${euro(x.revenue)})</li>`).join('');
+      document.getElementById('advertisers').innerHTML = state.advertisers.map(x => `<li>${x.name} — ${x.contact} — ${euro(x.budget)} (${x.status})</li>`).join('');
+
+      document.getElementById('cash-summary').textContent = `Solde: ${euro(m.balance)}`;
+      document.getElementById('claim-summary').textContent = `Recouvrement: ${pct(m.recoveryRate)}`;
+      document.getElementById('slots-summary').textContent = `CA: ${euro(m.ca)} — Remplissage: ${pct(m.fillRate)}`;
+      document.getElementById('crm-summary').textContent = `Budget total: ${euro(m.budget)}`;
+
+      document.getElementById('cash-ai').innerHTML = [
+        m.balance < 1000 ? 'Stopper les dépenses non essentielles 30 jours.' : 'Maintenir un coussin de trésorerie équivalent à 2 semaines de charges.',
+        'Négocier un échéancier fournisseur sur les sorties > 500 €.',
+        'Prioriser l’encaissement des créances en retard cette semaine.'
+      ].map(x => `<li>${x}</li>`).join('');
+
+      document.getElementById('claims-ai').innerHTML = [
+        m.recoveryRate < 60 ? 'Lancer relance téléphonique sous 48h sur les dossiers "retard".' : 'Maintenir une cadence de relance hebdomadaire.',
+        'Proposer remise 3% contre paiement immédiat pour dossiers "critique".',
+        'Escalader en mise en demeure si >30 jours après échéance.'
+      ].map(x => `<li>${x}</li>`).join('');
+
+      document.getElementById('slots-ai').innerHTML = [
+        m.fillRate < 35 ? 'Ouvrir des offres pack matin + midi pour remplir les créneaux vides.' : 'Optimiser les tarifs selon heure de forte audience.',
+        'Vendre des emplacements premium sur les créneaux 07h-09h et 17h-19h.',
+        'Réaffecter les spots faibles performances vers des tranches plus rentables.'
+      ].map(x => `<li>${x}</li>`).join('');
+
+      document.getElementById('crm-ai').innerHTML = [
+        m.inactive > 0 ? `Relancer en priorité ${m.inactive} annonceur(s) non actifs.` : 'Construire une offre de montée en gamme pour les annonceurs actifs.',
+        'Segmenter le portefeuille par budget (A/B/C) et personnaliser les offres.',
+        'Planifier une revue mensuelle client avec KPI de diffusion.'
+      ].map(x => `<li>${x}</li>`).join('');
+    }
+
+    function snapshotMetrics(label) {
+      const m = metrics();
+      return { id: Date.now().toString(), label: label || new Date().toLocaleDateString('fr-FR'), date: new Date().toISOString(), ...m };
+    }
+
+    function refreshSnapshotSelects() {
+      const opts = state.snapshots.slice(-4).reverse().map(s => `<option value="${s.id}">${s.label}</option>`).join('');
+      ['compare-a','compare-b','compare-c','compare-d'].forEach(id => {
+        document.getElementById(id).innerHTML = `<option value="">--</option>${opts}`;
+      });
+      document.getElementById('snapshot-count').textContent = `${state.snapshots.length} snapshot(s)`;
+    }
+
+    function getSnap(id) {
+      return state.snapshots.find(s => s.id === id);
+    }
+
+    function compare() {
+      const ids = ['compare-a','compare-b','compare-c','compare-d'].map(id => document.getElementById(id).value).filter(Boolean);
+      const snaps = ids.map(getSnap).filter(Boolean).slice(0,4);
+      const keys = [
+        ['Solde trésorerie','balance',euro],
+        ['Taux recouvrement','recoveryRate',pct],
+        ['CA spots','ca',euro],
+        ['Remplissage grille','fillRate',pct],
+        ['Budget annonceurs','budget',euro]
+      ];
+      document.getElementById('compare-table').innerHTML = keys.map(([label,key,fmt]) => {
+        const cols = [0,1,2,3].map(i => `<td>${snaps[i] ? fmt(snaps[i][key]) : '-'}</td>`).join('');
+        return `<tr><td>${label}</td>${cols}</tr>`;
+      }).join('');
+    }
+
+    function benchmark() {
+      const ids = ['compare-a','compare-b','compare-c','compare-d'].map(id => document.getElementById(id).value).filter(Boolean);
+      const snaps = ids.map(getSnap).filter(Boolean);
+      if (snaps.length < 2) {
+        document.getElementById('benchmark-ai').innerHTML = '<li>Choisis au moins 2 périodes pour le benchmark.</li>';
+        return;
+      }
+      const first = snaps[0];
+      const last = snaps[snaps.length - 1];
+      const actions = [];
+      if (last.balance < first.balance) actions.push('1) Mettre en place un plan de réduction des sorties de cash de 15% sous 90 jours.');
+      else actions.push('1) Conserver la discipline cash et sécuriser 1 mois de réserve.');
+      if (last.recoveryRate < 70) actions.push('2) Créer une cellule recouvrement hebdomadaire + relance multi-canal.');
+      else actions.push('2) Automatiser les relances J+3 / J+10 pour maintenir un haut taux de recouvrement.');
+      if (last.fillRate < 40) actions.push('3) Lancer une offre promo de remplissage des créneaux creux sur 6 semaines.');
+      else actions.push('3) Revaloriser les tarifs des créneaux premium de 8 à 12%.');
+      actions.push('4) Mettre en place un comité mensuel Radio + Régie avec revue KPI et arbitrage rapide.');
+      actions.push('5) Déployer un pipeline annonceurs: acquisition locale, upsell, anti-churn avec objectifs par commercial.');
+      document.getElementById('benchmark-ai').innerHTML = actions.map(x => `<li>${x}</li>`).join('');
+    }
+
+    document.getElementById('cash-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.cash.push({
+        label: document.getElementById('cash-label').value,
+        date: document.getElementById('cash-date').value,
+        type: document.getElementById('cash-type').value,
+        amount: Number(document.getElementById('cash-amount').value)
+      });
+      persist();
+      renderCore();
+      e.target.reset();
+    });
+
+    document.getElementById('claim-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.claims.push({
+        client: document.getElementById('claim-client').value,
+        amount: Number(document.getElementById('claim-amount').value),
+        status: document.getElementById('claim-status').value,
+        due: document.getElementById('claim-due').value,
+        note: document.getElementById('claim-note').value
+      });
+      persist();
+      renderCore();
+      e.target.reset();
+    });
+
+    function slotConflict(date, time) {
+      return state.slots.some(s => s.date === date && s.time === time);
+    }
+
+    document.getElementById('slot-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const date = document.getElementById('slot-date').value;
+      const time = document.getElementById('slot-time').value;
+      if (slotConflict(date, time)) {
+        window.alert('Conflit détecté : créneau déjà utilisé à cette date/heure.');
+        return;
+      }
+      state.slots.push({
+        title: document.getElementById('slot-title').value,
+        date,
+        time,
+        duration: Number(document.getElementById('slot-duration').value),
+        revenue: Number(document.getElementById('slot-revenue').value)
+      });
+      persist();
+      renderCore();
+      e.target.reset();
+    });
+
+    document.getElementById('crm-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.advertisers.push({
+        name: document.getElementById('crm-name').value,
+        contact: document.getElementById('crm-contact').value,
+        budget: Number(document.getElementById('crm-budget').value),
+        status: document.getElementById('crm-status').value,
+        sector: document.getElementById('crm-sector').value
+      });
+      persist();
+      renderCore();
+      e.target.reset();
+    });
+
+    document.getElementById('save-snapshot').addEventListener('click', () => {
+      const label = document.getElementById('snapshot-label').value.trim();
+      state.snapshots.push(snapshotMetrics(label));
+      persist();
+      refreshSnapshotSelects();
+      compare();
+      document.getElementById('snapshot-label').value = '';
+    });
+
+    document.getElementById('run-compare').addEventListener('click', compare);
+    document.getElementById('run-benchmark').addEventListener('click', benchmark);
+
+    renderCore();
+    refreshSnapshotSelects();
+    compare();
+  </script>
+</body>
+</html>

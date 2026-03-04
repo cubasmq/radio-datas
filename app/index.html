@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RadioPilot AI - Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand">📡 <span>RadioPilot</span> <small>AI</small></div>
+        <nav>
+          <p class="section">Navigation</p>
+          <button class="nav-item active">📊 Tableau de bord</button>
+          <button class="nav-item">💬 Chat IA</button>
+          <button class="nav-item">⚖️ Comparaison IA</button>
+          <button class="nav-item">🔑 Clés API</button>
+          <button class="nav-item">💻 IA locale</button>
+        </nav>
+        <nav>
+          <p class="section">Données</p>
+          <button class="nav-item">🎯 Objectifs & KPIs</button>
+          <button class="nav-item">💰 Trésorerie</button>
+          <button class="nav-item">📅 Grille antenne</button>
+          <button class="nav-item">👥 Annonceurs</button>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <h1>ALERTES TEMPS RÉEL</h1>
+          <div class="providers">
+            <span>CLAUDE</span><span>GEMINI</span><span>GPT-4</span><span>DEEPSEEK</span><span>OLLAMA</span><span>LM STUDIO</span>
+          </div>
+        </header>
+
+        <section class="alerts">
+          <div class="alert danger">🚨 Trésorerie critique — 867 € disponibles</div>
+          <div class="alert warn">🧾 Fournisseurs : encaisser avant règlement</div>
+          <div class="alert good">✅ CA +28% vs 2021 — continuer</div>
+        </section>
+
+        <section class="kpis">
+          <article class="card">
+            <h3>Trésorerie disponible</h3>
+            <p class="value danger">867 €</p>
+            <small>Critique</small>
+          </article>
+          <article class="card">
+            <h3>Résultat opérationnel</h3>
+            <p class="value">4 788 €</p>
+            <small>Ratio EBIT/CA 18,8%</small>
+          </article>
+          <article class="card">
+            <h3>Créances totales</h3>
+            <p class="value">1 899 €</p>
+            <small>Bilan 2022</small>
+          </article>
+        </section>
+
+        <section class="grid2">
+          <article class="card">
+            <h3>Planning FM + Spots</h3>
+            <form id="slot-form" class="compact-form">
+              <input id="slot-title" placeholder="Nom émission / spot" required />
+              <input id="slot-date" type="date" required />
+              <input id="slot-time" type="time" required />
+              <select id="slot-type"><option value="FM">FM</option><option value="PUB">PUB</option></select>
+              <button type="submit">Ajouter</button>
+            </form>
+            <ul id="slots"></ul>
+          </article>
+
+          <article class="card">
+            <h3>CRM Annonceurs</h3>
+            <form id="crm-form" class="compact-form">
+              <input id="crm-name" placeholder="Nom annonceur" required />
+              <input id="crm-contact" placeholder="Contact" required />
+              <button type="submit">Ajouter</button>
+            </form>
+            <ul id="advertisers"></ul>
+          </article>
+        </section>
+
+        <section class="card">
+          <h3>Simulation IA multi-provider</h3>
+          <div class="ia-row">
+            <select id="provider">
+              <option>OpenAI</option><option>Claude</option><option>Gemini</option><option>DeepSeek</option><option>Ollama</option><option>LM Studio</option>
+            </select>
+            <textarea id="prompt" rows="3" placeholder="Prompt radio/régie..."></textarea>
+            <button id="simulate" type="button">Simuler réponse</button>
+          </div>
+          <pre id="ai-output"></pre>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
