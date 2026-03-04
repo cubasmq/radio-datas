@@ -86,6 +86,11 @@ Si tu veux, je peux ensuite te générer un **squelette technique initial** (Nex
 
 Le repository contient maintenant un prototype statique dans `app/`.
 
+Option la plus simple (sans serveur local) :
+- ouvrir directement `app/dashboard-ai-v11.html` dans le navigateur.
+
+Option serveur local :
+
 ```bash
 python3 -m http.server 8080 --directory app
 ```

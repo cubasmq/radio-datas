@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dashboard-ai-v11</title>
+  <style>
+    :root { --bg:#030711; --card:#0b1628; --line:#1b2a42; --text:#cfe0ff; --muted:#7e95b7; --ok:#1ee6a7; --warn:#ffb020; --danger:#ff4b5c; }
+    *{box-sizing:border-box} body{margin:0;font-family:"Segoe UI",Inter,sans-serif;background:radial-gradient(circle at top,#0c1b36,var(--bg));color:var(--text)}
+    .layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+    .sidebar{border-right:1px solid var(--line);background:rgba(2,10,20,.92);padding:1rem}
+    .brand{font-size:1.5rem;font-weight:700;margin-bottom:1rem}.brand span{color:var(--ok)}.brand small{font-size:.75rem;color:var(--muted)}
+    .section{color:var(--muted);text-transform:uppercase;letter-spacing:.14em;font-size:.72rem}
+    .nav-item{width:100%;text-align:left;margin:.2rem 0;padding:.65rem .75rem;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--text)}
+    .nav-item.active,.nav-item:hover{border-color:#1ee6a77c;background:#0c2035}
+    .main{padding:1rem 1.2rem}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.7rem}
+    .topbar h1{margin:0;font-size:1rem;letter-spacing:.14em}.providers span{font-size:.72rem;border:1px solid #2b4166;border-radius:999px;padding:.28rem .5rem;margin-left:.3rem;color:#7ab5ff}
+    .alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin:1rem 0}.alert{border-radius:10px;padding:.72rem;border:1px solid;font-size:.9rem}
+    .danger{border-color:#6b2631;background:#2a1017;color:#ffadb6}.warn{border-color:#6b5525;background:#2d230d;color:#ffdc9c}.good{border-color:#1b5842;background:#0b2a21;color:#96ffd9}
+    .kpis,.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:.75rem}
+    .card{background:linear-gradient(180deg,#0b1628,#0a1322);border:1px solid var(--line);border-radius:14px;padding:.85rem}
+    .card h3{margin:.1rem 0 .5rem;font-size:1rem}.value{font-size:1.9rem;font-weight:800;color:var(--ok);margin:.2rem 0}.value.danger{color:var(--danger)} small{color:var(--muted)}
+    .compact-form{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:.4rem;margin-bottom:.5rem}
+    input,select,textarea,button{background:#081223;color:var(--text);border:1px solid #223450;border-radius:9px;padding:.5rem}
+    button{cursor:pointer;background:#1a3361} button:hover{background:#234680}
+    ul{margin:.4rem 0 0;padding-left:1rem} li{margin:.2rem 0;color:#bad4fa}
+    .ia-row{display:grid;grid-template-columns:180px 1fr 180px;gap:.5rem}
+    pre{margin-top:.6rem;min-height:80px;background:#050b15;border:1px solid #23334f;border-radius:9px;padding:.6rem;white-space:pre-wrap}
+    .download-tip{font-size:.82rem;color:var(--muted);margin-top:.4rem}
+    @media (max-width:1100px){.layout{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.alerts,.kpis,.grid2,.ia-row{grid-template-columns:1fr}.compact-form{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">📡 <span>RadioPilot</span> <small>AI</small></div>
+      <p class="section">Navigation</p>
+      <button class="nav-item active">📊 Tableau de bord</button>
+      <button class="nav-item">💬 Chat IA</button>
+      <button class="nav-item">⚖️ Comparaison IA</button>
+      <button class="nav-item">🔑 Clés API</button>
+      <button class="nav-item">💻 IA locale</button>
+      <p class="download-tip">✅ Version mono-fichier : tu peux l’ouvrir directement dans ton navigateur.</p>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1>ALERTES TEMPS RÉEL</h1>
+        <div class="providers"><span>CLAUDE</span><span>GEMINI</span><span>GPT-4</span><span>DEEPSEEK</span><span>OLLAMA</span><span>LM STUDIO</span></div>
+      </header>
+
+      <section class="alerts">
+        <div class="alert danger">🚨 Trésorerie critique — 867 € disponibles</div>
+        <div class="alert warn">🧾 Fournisseurs : encaisser avant règlement</div>
+        <div class="alert good">✅ CA +28% vs 2021 — continuer</div>
+      </section>
+
+      <section class="kpis">
+        <article class="card"><h3>Trésorerie</h3><p class="value danger">867 €</p><small>Critique</small></article>
+        <article class="card"><h3>Résultat opérationnel</h3><p class="value">4 788 €</p><small>Ratio 18,8%</small></article>
+      </section>
+
+      <section class="grid2">
+        <article class="card">
+          <h3>Planning FM + Spots</h3>
+          <form id="slot-form" class="compact-form">
+            <input id="slot-title" placeholder="Nom émission / spot" required>
+            <input id="slot-date" type="date" required>
+            <input id="slot-time" type="time" required>
+            <select id="slot-type"><option value="FM">FM</option><option value="PUB">PUB</option></select>
+            <button type="submit">Ajouter</button>
+          </form>
+          <ul id="slots"></ul>
+        </article>
+
+        <article class="card">
+          <h3>CRM Annonceurs</h3>
+          <form id="crm-form" class="compact-form">
+            <input id="crm-name" placeholder="Nom annonceur" required>
+            <input id="crm-contact" placeholder="Contact" required>
+            <button type="submit">Ajouter</button>
+          </form>
+          <ul id="advertisers"></ul>
+        </article>
+      </section>
+
+      <section class="card">
+        <h3>Simulation IA multi-provider</h3>
+        <div class="ia-row">
+          <select id="provider"><option>OpenAI</option><option>Claude</option><option>Gemini</option><option>DeepSeek</option><option>Ollama</option><option>LM Studio</option></select>
+          <textarea id="prompt" rows="3" placeholder="Prompt radio/régie..."></textarea>
+          <button id="simulate" type="button">Simuler réponse</button>
+        </div>
+        <pre id="ai-output"></pre>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const slotForm = document.getElementById('slot-form');
+    const crmForm = document.getElementById('crm-form');
+    const slotsList = document.getElementById('slots');
+    const advertisersList = document.getElementById('advertisers');
+    const aiOutput = document.getElementById('ai-output');
+
+    const state = {
+      slots: JSON.parse(localStorage.getItem('radio-datas-slots') || '[]'),
+      advertisers: JSON.parse(localStorage.getItem('radio-datas-advertisers') || '[]')
+    };
+
+    function save() {
+      localStorage.setItem('radio-datas-slots', JSON.stringify(state.slots));
+      localStorage.setItem('radio-datas-advertisers', JSON.stringify(state.advertisers));
+    }
+
+    function render() {
+      slotsList.innerHTML = state.slots.map((s) => `<li><strong>[${s.type}]</strong> ${s.date} ${s.time} — ${s.title}</li>`).join('');
+      advertisersList.innerHTML = state.advertisers.map((a) => `<li><strong>${a.name}</strong> (${a.contact})</li>`).join('');
+    }
+
+    function hasConflict(date, time) {
+      return state.slots.some((slot) => slot.date === date && slot.time === time);
+    }
+
+    slotForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const title = document.getElementById('slot-title').value;
+      const date = document.getElementById('slot-date').value;
+      const time = document.getElementById('slot-time').value;
+      const type = document.getElementById('slot-type').value;
+      if (hasConflict(date, time)) {
+        window.alert('Conflit détecté : un créneau existe déjà à cette date/heure.');
+        return;
+      }
+      state.slots.push({ title, date, time, type });
+      save();
+      render();
+      slotForm.reset();
+    });
+
+    crmForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      state.advertisers.push({
+        name: document.getElementById('crm-name').value,
+        contact: document.getElementById('crm-contact').value
+      });
+      save();
+      render();
+      crmForm.reset();
+    });
+
+    document.getElementById('simulate').addEventListener('click', () => {
+      const provider = document.getElementById('provider').value;
+      const prompt = document.getElementById('prompt').value || 'Aucun prompt saisi';
+      aiOutput.textContent = `[${provider}] Réponse simulée\n\n${prompt}\n\nSuggestion: valider en régie avant diffusion.`;
+    });
+
+    render();
+  </script>
+</body>
+</html>

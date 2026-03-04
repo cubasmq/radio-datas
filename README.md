@@ -188,19 +188,17 @@ Tu y trouveras :
 
 ## 11) Télécharger l'app et tester sur ton navigateur
 
-### Option A — Télécharger en ZIP
+### Option A — HTML ultra simple (sans installation)
+1. Télécharge le fichier **`app/dashboard-ai-v11.html`**.
+2. Double-clique dessus.
+3. Il s'ouvre directement dans ton navigateur (Chrome/Brave/Edge/Firefox).
+
+### Option B — Télécharger en ZIP
 1. Télécharge le dépôt GitHub en ZIP.
 2. Décompresse le dossier.
-3. Ouvre un terminal dans le dossier du projet.
-4. Lance un serveur web local :
+3. Ouvre `app/dashboard-ai-v11.html` directement dans le navigateur.
 
-```bash
-python3 -m http.server 8080 --directory app
-```
-
-5. Ouvre ton navigateur sur : `http://localhost:8080`
-
-### Option B — Via Git
+### Option C — Via Git (avec serveur local)
 
 ```bash
 git clone <url-du-repo>
